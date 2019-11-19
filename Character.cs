@@ -126,7 +126,30 @@ public class Character : MonoBehaviour {
                 death();
             }
         }
+	
+	    //when collides with the boss, it decreases the player health without destroying the boss
+	    if (collision.gameObject.tag == "Boss")
+        {
+            if (AllowDamage == true)
+            {
+                Health -= 1;
+            }
 
+            if (HealthText)
+            {
+                HealthText.text = "Health: " + Health;
+            }
+
+            //make it so the player is invinicible for a set amount of time after taking damage
+            AllowDamage = false;
+            StartCoroutine(DamageWait());
+
+            if (Health == 0)
+            {
+                death();
+            }
+        }
+	    
         //when collides with an enemy it decreases the player's Health
         if (collision.gameObject.tag == "EnemyProjectile")
         {
